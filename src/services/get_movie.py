@@ -3,6 +3,10 @@ from dotenv import load_dotenv
 import requests
 import os
 
+from src.errors.api_key_error import ApiKeyError
+from src.errors.bad_request_error import BadRequestError
+from src.errors.movie_not_found import MovieNotFound
+
 load_dotenv()
 
 class GetMovie:
@@ -19,13 +23,13 @@ class GetMovie:
 
     def __verify_request(self, body: dict) -> str:
         if not body:
-            raise Exception("Dados inválidos, verifique as informações enviadas.")
+            raise BadRequestError("Dados inválidos, verifique as informações enviadas.")
 
         if "movie_name" not in body:
-            raise Exception("O nome do filme é obrigatório, verifique as informações enviadas.")
+            raise BadRequestError("O nome do filme é obrigatório, verifique as informações enviadas.")
 
         if not isinstance(body["movie_name"], str):
-            raise Exception("O nome do filme deve ser uma string.")
+            raise BadRequestError("O nome do filme deve ser uma string.")
 
         movie_name = body["movie_name"]
 
@@ -36,10 +40,10 @@ class GetMovie:
         response_data = response.json()
 
         if response.status_code == 401:
-            raise Exception("API Key inválida, verifique as informações enviadas.")
+            raise ApiKeyError("API Key inválida, verifique as informações enviadas.")
 
         if response_data.get("Error") == "Movie not found!":
-            raise Exception("Título do filme inválido, verifique as informações enviadas.")
+            raise MovieNotFound("Título do filme inválido, verifique as informações enviadas.")
 
         return response_data
 
