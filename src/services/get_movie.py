@@ -6,6 +6,7 @@ import os
 from src.errors.api_key_error import ApiKeyError
 from src.errors.bad_request_error import BadRequestError
 from src.errors.movie_not_found import MovieNotFound
+from .redis_service import add_to_history, get_movie_from_history
 
 load_dotenv()
 
@@ -22,8 +23,14 @@ class GetMovie:
         body = request.json
 
         movie_name = self.__verify_request(body)
+        movie_history_info = get_movie_from_history(movie_name)
+
+        if movie_history_info: return movie_history_info
+        
         movie_info = self.__get_movie_info(movie_name)
         response = self.__format_response(movie_info)
+
+        add_to_history(response)
 
         return response
 
@@ -58,7 +65,7 @@ class GetMovie:
         Returns:
             - dict: Dicionário com as informações do filme ou o detalhamento do erro ocorrido.
         """
-        response = requests.get(f"http://www.omdbapi.com/?apikey={self.API_KEY}&t={movie_name}")
+        response = requests.get(f"http://www.omdbapi.com/?apikey={self.API_KEY}&t={movie_name}", timeout=5)
         response_data = response.json()
 
         if response.status_code == 401:
