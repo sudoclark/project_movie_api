@@ -2,8 +2,8 @@ from .base_error import BaseError
 
 class BadRequestError(BaseError):
     """
-    Exceção personalizada usada para tratamento de erros vindos do cliente. Qualquer informação incorreta ou erro
-    na requisição sobe essa exceção.
+    Exceção personalizada usada para tratamento de erros vindos do cliente. 
+    Qualquer informação incorreta ou erro na requisição sobe essa exceção.
 
     Exemplos:
         - Body vazio
@@ -11,4 +11,4 @@ class BadRequestError(BaseError):
         - Valores incorretos
     """
     def __init__(self, message: str):
-        super().__init__(message, type="Bad Request", status_code=400)
+        super().__init__(message, error_type="Bad Request", status_code=400)

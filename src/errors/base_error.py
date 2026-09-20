@@ -7,8 +7,8 @@ class BaseError(Exception):
         - type(str): Tipo detalhado do erro
         - status_code(int): Código de resposta daquele erro
     """
-    def __init__(self, message: str, type: str, status_code: int):
+    def __init__(self, message: str, error_type: str, status_code: int):
         super().__init__(message)
         self.message = message
-        self.type = type
+        self.type = error_type
         self.status_code = status_code

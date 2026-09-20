@@ -1,5 +1,6 @@
-from src.services.get_movie import GetMovie
 from pytest import raises
+
+from src.services.get_movie import GetMovie
 
 class MockRequest:
     def __init__(self, body):

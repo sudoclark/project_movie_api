@@ -9,10 +9,11 @@ movies_route_bp = Blueprint("movies_bp", __name__)
 @movies_route_bp.route("/movies", methods=["POST"])
 def get_movie_info():
     """
-    Rota para buscarmos as informações de um filme pelo nome. Ela chama o serviço de busca, consulta as informações do filme e
+    Rota para buscarmos as informações de um filme pelo nome. 
+    Ela chama o serviço de busca, consulta as informações do filme e
     retorna esses dados.
-    A rota possui um tratamento de erros, caso suba qualquer exceção ela chama o handler de exceções e repassa as
-    informações detalhadas ao usuário.
+    A rota possui um tratamento de erros, caso suba qualquer exceção ela 
+    chama o handler de exceções e repassa as informações detalhadas ao usuário.
 
     Returns:
         - dict: Contém as informações do filme ou o detalhamento do erro.
@@ -28,6 +29,9 @@ def get_movie_info():
 
 @movies_route_bp.route("/history", methods=["GET"])
 def get_history():
+    """
+    Rota para buscar o histórico de filmes.
+    """
     try:
         movies = get_movies_history()
         return jsonify(movies)
